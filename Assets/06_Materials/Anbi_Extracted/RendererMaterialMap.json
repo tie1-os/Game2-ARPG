@@ -1,0 +1,40 @@
+[
+  {
+    "renderer": "Anbi_Body",
+    "materials": [
+      "MAT_Anbi_Body",
+      "MAT_Anbi_Body_PlasticPack"
+    ]
+  },
+  {
+    "renderer": "Anbi_Face",
+    "materials": [
+      "MAT_Anbi_Face",
+      "MAT_Anbi_Eye"
+    ]
+  },
+  {
+    "renderer": "Anbi_Hair",
+    "materials": [
+      "MAT_Anbi_Hair"
+    ]
+  },
+  {
+    "renderer": "Anbi_HairShadow",
+    "materials": [
+      "MAT_HairShadow"
+    ]
+  },
+  {
+    "renderer": "AnbiWeapon_CompanyB_Blade_Fire01",
+    "materials": [
+      "MAT_Anbi_Weapon_Fire"
+    ]
+  },
+  {
+    "renderer": "AnbiWeapon_CompanyB_Blade_Fire02",
+    "materials": [
+      "MAT_Anbi_Weapon_Fire"
+    ]
+  }
+]

@@ -1,0 +1,29 @@
+安比材质提取结果
+
+来源：Avatar_Female_Size02_Anbi_Model 的实际材质引用。
+已提取：7 份原始材质参数（RawMaterials/*.json）和 19 张贴图（Textures/*.png）。MaterialManifest.json 记录材质与贴图属性的对应关系。
+
+Unity 项目中的文件：
+Assets/06_Materials/Anbi_Extracted：7 份基础材质（眼睛使用专用 URP 叠层着色器）、原始材质参数和对应清单。
+Assets/05_Texture/Anbi_Extracted：19 张原始贴图。
+Assets/02_Prefabs/Anbi_WithMaterials.prefab：已逐部位挂好基础材质的预制体，来源是 Avatar_Female_Size02_Anbi_Model_WithAnimations.fbx。
+
+使用：将 Anbi_WithMaterials.prefab 拖入场景；它沿用对应 FBX 的骨骼和动画路径。原始 FBX 的材质导入设置没有改动，直接看原 FBX 的预览仍可能是灰模。
+
+显示范围：已在 Unity 中渲染检查，身体、脸、头发和武器的颜色贴图对应正确，并用 Walk 动画采样验证。
+这是适配当前 URP 项目的基础材质，不是原游戏完整着色效果。描边、卡通光照、特殊高光、武器特效没有还原。专用头发阴影网格在基础预制体中关闭渲染，原始网格与材质参数仍保留。
+原游戏的 _LightTex、_OtherDataTex 等贴图保留了原始名称，没有当作标准 URP 法线或金属贴图强行接入。
+早先导出 FBX 的身体/脸子材质被合并为各一个材质槽。目前预制体已恢复面部两个槽：Element 0 为脸，Element 1 为眼睛。身体塑料包装的专用着色仍未恢复。
+没有新增运行时代码。
+
+眼部修复（2026-11-02）：
+已修复面部 FBX 的材质分区和顶点颜色导出标记，恢复原始 2 个子网格。旧工程使用 Anbi_Face_Source.fbx 作为面部网格的修复来源，保留 6 个绑定骨骼和 44 个表情。
+MAT_Anbi_Eye_URP 使用 Anbi/URP Eye Overlay 着色器，按照原始顶点标记查 Eye_E 颜色/透明度表，避免把眼睛上方的阴影层画成不透明白块。
+手动修改：选中预制体或场景实例内的 Anbi_Face → Skinned Mesh Renderer → Materials → Element 1 → MAT_Anbi_Eye_URP。
+Brightness（默认 2）控制眼部叠层亮度；Opacity（默认 1）控制整层透明度，包括眼部细节。Face Texture 是 Anbi_Face_D，Eye Color Table 是 Eye_E，通常保持对应贴图不变。
+这是 URP 基础适配，未完整还原原游戏所有脸部卡通光照。当前玩家逻辑和原完整动画 FBX 未改动。
+
+左右眼一致性补充修复：
+眼睛的透明层需要按照虹膜底层、阴影/瞳孔、亮点的顺序绘制；原索引顺序会使一侧虹膜盖住瞳孔和高光。
+已在 Anbi_Face_EyeSorted.asset 中调整眼部三角面的绘制顺序，顶点、骨骼权重、UV 和 44 个表情保持不变。新工程的预制体使用 Assets/04_Models/Anbi_MaterialFix/Anbi_Face_EyeSorted.asset。
+左右眼仍共用 MAT_Anbi_Eye_URP，Shader 为 Anbi/URP Eye Overlay，不需要分别更换贴图。
